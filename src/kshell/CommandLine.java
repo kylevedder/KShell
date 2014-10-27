@@ -14,6 +14,11 @@ public class CommandLine
 {
     StringBuilder commandString;
 
+    public CommandLine()
+    {
+        this.commandString = new StringBuilder();
+    }   
+    
     public CommandLine(String commandString)
     {
         this.commandString = new StringBuilder(commandString);
@@ -64,6 +69,14 @@ public class CommandLine
     public void delete(int index)
     {
         this.commandString.deleteCharAt(index);
+    }
+    
+    /**
+     * Resets the CommandLine object for reuse.
+     */
+    public void clear()
+    {
+        this.commandString = new StringBuilder();
     }
     
     public String toLine()

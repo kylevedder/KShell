@@ -7,22 +7,21 @@ package kshell;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.text.BadLocationException;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -62,25 +61,24 @@ public class UI extends JFrame
         mainText.setBackground(Color.BLACK);
         mainText.setForeground(Color.WHITE);
         mainText.setCaretColor(Color.WHITE);
-        mainText.addKeyListener(new KeyListener()
+        mainText.addKeyListener(new KeyAdapter()
         {
-
             @Override
-            public void keyTyped(KeyEvent e)
+            public void keyPressed(KeyEvent evt)
             {
-                //ignored
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e)
-            {
-                KeyInput.handleKeyInput(e);                                                             
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e)
-            {
-                //ignored
+                InputMap inputMap = mainText.getInputMap();
+                ActionMap actionMap = mainText.getActionMap();
+                KeyStroke keyStroke = KeyStroke.getKeyStrokeForEvent(evt);
+                inputMap.put(keyStroke, "doNothing");
+                actionMap.put("doNothing", new AbstractAction()
+                {
+                    @Override
+                    public void actionPerformed(ActionEvent ae)
+                    {
+                        //ignored
+                    }
+                });
+                KeyInput.handleKeyInput(evt);
             }
         });
         mainTextScroll.setViewportView(mainText);
@@ -90,11 +88,11 @@ public class UI extends JFrame
         this.getContentPane().add(mainPanel);
         this.setTitle(TITLE);
         this.setResizable(false);
-        this.setVisible(true);  
+        this.setVisible(true);
         List<Image> icons = new ArrayList<Image>();
         icons.add(new ImageIcon(this.getClass().getResource(ICON_PATH16)).getImage());
         icons.add(new ImageIcon(this.getClass().getResource(ICON_PATH64)).getImage());
-        this.setIconImages(icons);        
+        this.setIconImages(icons);
         pack();
     }
 

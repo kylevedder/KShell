@@ -78,6 +78,10 @@ public class KeyInput
     }
     
     
+    /**
+     * Adds the given key to the commandLine.
+     * @param e 
+     */
     private static void typeKey(KeyEvent e)
     {        
         commandLine.append(String.valueOf(e.getKeyChar()));        
