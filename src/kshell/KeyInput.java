@@ -5,6 +5,7 @@
  */
 package kshell;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 /**
@@ -13,6 +14,8 @@ import java.awt.event.KeyEvent;
  */
 public class KeyInput
 {
+
+    private static CommandLine commandLine = new CommandLine();
 
     /**
      * Handles all key input from UI.
@@ -23,28 +26,34 @@ public class KeyInput
     {
         if (isKey(e, KeyEvent.VK_ENTER))
         {
-            enter(e);
+            enter();
         }
         else if (isKey(e, KeyEvent.VK_UP))
         {
-            up(e);
+            up();
+        }
+        else if (isKey(e, KeyEvent.VK_DOWN))
+        {
+            down();
         }
         else if (isKey(e, KeyEvent.VK_ESCAPE))
         {
-            escape(e);
+            escape();
         }
         else if (isKey(e, KeyEvent.VK_TAB))
         {
-            tab(e);
+            tab();
         }
         else if (isKey(e, KeyEvent.VK_BACK_SPACE))
         {
-            backspace(e);
+            backspace();
         }
-        else if (isKey(e, KeyEvent.VK_SPACE) || !e.isActionKey() && !isKey(e, KeyEvent.VK_ALT) && !isKey(e, KeyEvent.VK_CONTROL))
+        else if (isKey(e, KeyEvent.VK_SPACE) || !e.isActionKey() && !isKey(e, KeyEvent.VK_ALT) && !isKey(e, KeyEvent.VK_CONTROL) && !isKey(e, KeyEvent.VK_SHIFT))
         {
             typeKey(e);
         }
+        updateUI();
+        System.out.println(commandLine.toString());
     }
 
     /**
@@ -59,44 +68,49 @@ public class KeyInput
         return (e.getKeyChar() == code || e.getKeyCode() == code);
     }
 
-    private static void enter(KeyEvent e)
+    
+    /**
+     * Update the UI with the CommandLine obj
+     */
+    private static void updateUI()
     {
-
+        String line = commandLine.toLine();
     }
-
-    private static void backspace(KeyEvent e)
-    {
-
-    }
-
-    private static void up(KeyEvent e)
-    {
-
-    }
-
-    private static void escape(KeyEvent e)
-    {
-
-    }
-
-    private static void tab(KeyEvent e)
-    {
-
-    }
+    
     
     private static void typeKey(KeyEvent e)
     {        
-        
+        commandLine.append(String.valueOf(e.getKeyChar()));        
+    }   
+    
+    private static void enter()
+    {
+        CommandMemory.add(commandLine);
+        commandLine = new CommandLine();
+    }
+
+    private static void backspace()
+    {
+        commandLine.delete(commandLine.getLength() - 1);
     }
     
+    private static void up()
+    {
+        commandLine = CommandMemory.getNextCommand();
+    }
     
-    
-    /**
-     * Updates the UI with the a specific String
-     * @param s 
-     */
-    private static void updateUI(String s)
+    private static void down()
+    {
+        commandLine = CommandMemory.getPrevCommand();
+    }
+
+    private static void escape()
+    {
+        commandLine = new CommandLine();
+    }
+
+    private static void tab()
     {
         
-    }
+    }    
 }
