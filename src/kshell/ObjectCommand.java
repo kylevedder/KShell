@@ -20,7 +20,7 @@ public class ObjectCommand
         this.command = command;
         this.args = args;
         this.param = param;
-    }
+    }        
     
     
 }

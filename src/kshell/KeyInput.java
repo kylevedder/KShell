@@ -85,7 +85,7 @@ public class KeyInput
     }
     
     private static void typeKey(KeyEvent e)
-    {
+    {        
         
     }
     
