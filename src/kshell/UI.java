@@ -11,6 +11,9 @@ import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -28,6 +31,9 @@ import javax.swing.text.BadLocationException;
 public class UI extends JFrame
 {
 
+    private final String TITLE = "KShell";
+    private final String ICON_PATH64 = "/kshell/resources/icon64new.png";
+    private final String ICON_PATH16 = "/kshell/resources/icon16.png";
     private int NUM_COLS = 80;
     private int NUM_ROWS = 40;
     private static JTextArea mainText = null;
@@ -82,11 +88,13 @@ public class UI extends JFrame
         mainPanel.add(mainTextScroll);
 
         this.getContentPane().add(mainPanel);
-        this.setTitle("KShell");
+        this.setTitle(TITLE);
         this.setResizable(false);
-        this.setVisible(true);
-        ImageIcon img = new ImageIcon();
-        this.setIconImage(img.getImage());
+        this.setVisible(true);  
+        List<Image> icons = new ArrayList<Image>();
+        icons.add(new ImageIcon(this.getClass().getResource(ICON_PATH16)).getImage());
+        icons.add(new ImageIcon(this.getClass().getResource(ICON_PATH64)).getImage());
+        this.setIconImages(icons);        
         pack();
     }
 
