@@ -13,6 +13,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.ImageIcon;
@@ -22,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.text.BadLocationException;
 
 /**
  *
@@ -38,6 +41,7 @@ public class UI extends JFrame
     private static JTextArea mainText = null;
     private static JScrollPane mainTextScroll = null;
     private static JPanel mainPanel = null;
+    private UI ui = this;
 
     public UI()
     {
@@ -78,7 +82,7 @@ public class UI extends JFrame
                         //ignored
                     }
                 });
-                KeyInput.handleKeyInput(evt);
+                KeyInput.handleKeyInput(evt, ui);
             }
         });
         mainTextScroll.setViewportView(mainText);
@@ -94,14 +98,39 @@ public class UI extends JFrame
         icons.add(new ImageIcon(this.getClass().getResource(ICON_PATH64)).getImage());
         this.setIconImages(icons);
         pack();
+        initTextArea();
     }
+    
+    private void initTextArea()
+    {
+        updateUI(new CommandLine());
+    }
+    
+    /**
+     * Update the UI with the CommandLine obj
+     */
+    public static void updateUI(CommandLine commandLine)
+    {
+        try
+        {            
+            int numLines = mainText.getLineCount();
+            int start = mainText.getLineStartOffset(numLines - 1);
+            int end = mainText.getLineEndOffset(numLines - 1);
+            mainText.replaceRange(commandLine.toLine(), start, end);
+        }
+        catch (BadLocationException ex)
+        {
+            Logger.getLogger(KeyInput.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        
 
     /**
      * Add text to the mainText
      *
      * @param s String to append.
      */
-    public static void appendText(String s)
+    public void appendText(String s)
     {
         mainText.append(s);
     }
