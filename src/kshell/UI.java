@@ -32,7 +32,7 @@ public class UI extends JFrame
 {
 
     private final String TITLE = "KShell";
-    private final String ICON_PATH64 = "/kshell/resources/icon64new.png";
+    private final String ICON_PATH64 = "/kshell/resources/icon64.png";
     private final String ICON_PATH16 = "/kshell/resources/icon16.png";
     private int NUM_COLS = 80;
     private int NUM_ROWS = 40;
