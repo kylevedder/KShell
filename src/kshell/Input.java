@@ -3,29 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package kshell;
 
 /**
  *
  * @author Kyle
  */
-public class CommandLine
+public class Input
 {
-    StringBuilder commandString;
 
-    public CommandLine()
+    private StringBuilder commandString;
+
+    public Input()
     {
         this.commandString = new StringBuilder();
-    }   
-    
-    public CommandLine(String commandString)
+    }
+
+    public Input(String commandString)
     {
         this.commandString = new StringBuilder(commandString);
     }
-    
+
     /**
      * Gets the length of the command
+     *
      * @return Length of the command
      */
     public int getLength()
@@ -35,15 +36,17 @@ public class CommandLine
 
     /**
      * Appends the given string to the command.
+     *
      * @param s String to append.
      */
     public void append(String s)
     {
         this.commandString.append(s);
     }
-    
+
     /**
      * Inserts the given string at the given point
+     *
      * @param start start position
      * @param s String to insert
      */
@@ -54,6 +57,7 @@ public class CommandLine
 
     /**
      * Deletes the given region of the string.
+     *
      * @param start start value of region
      * @param end end value of the region
      */
@@ -61,32 +65,42 @@ public class CommandLine
     {
         this.commandString.delete(start, end);
     }
-    
+
     /**
      * Deletes the charecter at the given index.
-     * @param index index of charecter to delete. 
+     *
+     * @param index index of charecter to delete.
      */
     public void delete(int index)
     {
         this.commandString.deleteCharAt(index);
     }
-    
+
     /**
-     * Resets the CommandLine object for reuse.
+     * Resets the Input object for reuse.
      */
     public void clear()
     {
         this.commandString = new StringBuilder();
     }
-    
+
+    /**
+     * Returns if the command is empty.
+     * @return is the command empty.
+     */
+    public boolean isEmpty()
+    {
+        return !(this.commandString.length() > 0);
+    }
+
     public String toLine()
     {
-        return "Line" + this.toString();
+        return ShellVars.getNewLineString() + this.toString();
     }
-    
+
     public String toString()
     {
         return this.commandString.toString();
     }
-    
+
 }

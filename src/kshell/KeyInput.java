@@ -7,6 +7,10 @@ package kshell;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTextArea;
+import javax.swing.text.BadLocationException;
 
 /**
  *
@@ -15,18 +19,18 @@ import java.awt.event.KeyEvent;
 public class KeyInput
 {
 
-    private static CommandLine commandLine = new CommandLine();
+    private static Input commandLine = new Input();
 
     /**
      * Handles all key input from UI.
      *
      * @param e Key Event from even listener
      */
-    public static void handleKeyInput(KeyEvent e)
+    public static void handleKeyInput(KeyEvent e, UI ui)
     {
         if (isKey(e, KeyEvent.VK_ENTER))
         {
-            enter();
+            enter(ui);
         }
         else if (isKey(e, KeyEvent.VK_UP))
         {
@@ -52,8 +56,8 @@ public class KeyInput
         {
             typeKey(e);
         }
-        updateUI();
-        System.out.println(commandLine.toString());
+        ui.updateUI(commandLine);
+//        System.out.println(commandLine.toString());
     }
 
     /**
@@ -69,52 +73,49 @@ public class KeyInput
     }
 
     
-    /**
-     * Update the UI with the CommandLine obj
-     */
-    private static void updateUI()
-    {
-        String line = commandLine.toLine();
-    }
-    
-    
+
     /**
      * Adds the given key to the commandLine.
-     * @param e 
+     *
+     * @param e
      */
     private static void typeKey(KeyEvent e)
-    {        
-        commandLine.append(String.valueOf(e.getKeyChar()));        
-    }   
-    
-    private static void enter()
     {
-        CommandMemory.add(commandLine);
-        commandLine = new CommandLine();
+        commandLine.append(String.valueOf(e.getKeyChar()));
+    }
+
+    private static void enter(UI ui)
+    {
+        if (!commandLine.isEmpty())
+        {
+            CommandMemory.add(commandLine);
+        }
+        ui.appendText("\n");
+        commandLine = new Input();
     }
 
     private static void backspace()
     {
         commandLine.delete(commandLine.getLength() - 1);
     }
-    
+
     private static void up()
     {
-        commandLine = CommandMemory.getNextCommand();
+        commandLine = new Input(CommandMemory.getNextCommand().toString());
     }
-    
+
     private static void down()
     {
-        commandLine = CommandMemory.getPrevCommand();
+        commandLine = new Input(CommandMemory.getPrevCommand().toString());
     }
 
     private static void escape()
     {
-        commandLine = new CommandLine();
+        commandLine = new Input();
     }
 
     private static void tab()
     {
-        
-    }    
+
+    }
 }

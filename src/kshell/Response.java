@@ -9,12 +9,12 @@ package kshell;
  *
  * @author kyle
  */
-public class ObjectResponse
+public class Response
 {
     boolean success;
     String message;
 
-    public ObjectResponse(boolean success, String message)
+    public Response(boolean success, String message)
     {
         this.success = success;
         this.message = message;

@@ -103,13 +103,13 @@ public class UI extends JFrame
     
     private void initTextArea()
     {
-        updateUI(new CommandLine());
+        updateUI(new Input());
     }
     
     /**
-     * Update the UI with the CommandLine obj
+     * Update the UI with the Input obj
      */
-    public static void updateUI(CommandLine commandLine)
+    public static void updateUI(Input commandLine)
     {
         try
         {            

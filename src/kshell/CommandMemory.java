@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class CommandMemory
 {
 
-    private static ArrayList<CommandLine> memory = new ArrayList<CommandLine>();
+    private static ArrayList<Input> memory = new ArrayList<Input>();
     private static int counter = -1;
 
     /**
@@ -22,7 +22,7 @@ public class CommandMemory
      *
      * @param cl
      */
-    public static void add(CommandLine cl)
+    public static void add(Input cl)
     {
         memory.add(0, cl);
         counterReset();
@@ -39,13 +39,13 @@ public class CommandMemory
     }
 
     /**
-     * Gets the CommandLine of the given index. "0" returns the most recent
+     * Gets the Input of the given index. "0" returns the most recent
      * command, with higher numbers being the less recent commands.
      *
      * @param index Index of command to get. "0" is the first command.
-     * @return Specified CommandLine object.
+     * @return Specified Input object.
      */
-    public static CommandLine getCommand(int index)
+    public static Input getCommand(int index)
     {
         return memory.get(index);
     }
@@ -71,14 +71,14 @@ public class CommandMemory
         return counterToWrap;
     }
 
-    public static CommandLine getNextCommand()
+    public static Input getNextCommand()
     {
         counter++;
         counter = wrapCounter(counter);
         return getCommand(counter);
     }
 
-    public static CommandLine getPrevCommand()
+    public static Input getPrevCommand()
     {
         counter--;
         counter = wrapCounter(counter);

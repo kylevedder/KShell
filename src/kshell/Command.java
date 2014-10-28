@@ -9,13 +9,13 @@ package kshell;
  *
  * @author kyle
  */
-public class ObjectCommand
+public class Command
 {
     String command;
     String args;
     String param;
 
-    public ObjectCommand(String command, String args, String param)
+    public Command(String command, String args, String param)
     {
         this.command = command;
         this.args = args;
