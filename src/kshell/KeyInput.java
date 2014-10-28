@@ -19,7 +19,7 @@ import javax.swing.text.BadLocationException;
 public class KeyInput
 {
 
-    private static Input commandLine = new Input();
+    private static Input input = new Input();
 
     /**
      * Handles all key input from UI.
@@ -56,7 +56,7 @@ public class KeyInput
         {
             typeKey(e);
         }
-        ui.updateUI(commandLine);
+        ui.updateUI(input);
 //        System.out.println(commandLine.toString());
     }
 
@@ -81,37 +81,39 @@ public class KeyInput
      */
     private static void typeKey(KeyEvent e)
     {
-        commandLine.append(String.valueOf(e.getKeyChar()));
+        input.append(String.valueOf(e.getKeyChar()));
     }
 
     private static void enter(UI ui)
     {
-        if (!commandLine.isEmpty())
+        if (!input.isEmpty())
         {
-            CommandMemory.add(commandLine);
+            CommandMemory.add(input);
+            Main.ch.addCommand(input);
+            Main.chLock.unlock();
         }
         ui.appendText("\n");
-        commandLine = new Input();
+        input = new Input();
     }
 
     private static void backspace()
     {
-        commandLine.delete(commandLine.getLength() - 1);
+        input.delete(input.getLength() - 1);
     }
 
     private static void up()
     {
-        commandLine = new Input(CommandMemory.getNextCommand().toString());
+        input = new Input(CommandMemory.getNextCommand().toString());
     }
 
     private static void down()
     {
-        commandLine = new Input(CommandMemory.getPrevCommand().toString());
+        input = new Input(CommandMemory.getPrevCommand().toString());
     }
 
     private static void escape()
     {
-        commandLine = new Input();
+        input = new Input();
     }
 
     private static void tab()

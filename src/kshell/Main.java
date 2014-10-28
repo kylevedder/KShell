@@ -12,12 +12,19 @@ package kshell;
 public class Main
 {
 
+    public static CommandHolder ch = null;
+    public static Lock chLock = null;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args)
     {
         UI ui = new UI();
+        ch = new CommandHolder();
+        chLock = new Lock();
+        CommandProcessorThread cpt = new CommandProcessorThread();
+        cpt.start();
     }
-    
+
 }
