@@ -52,15 +52,15 @@ public class CommandProcessorThread extends Thread
 
     /**
      * Execute the jar file at the given path.
-     * @param path 
-     * @param cmd
+     * @param path file system path to each jar.
+     * @param args String containing the arguments for the jar to execute.
      */
-    private void executeJarFile(String path, Command cmd)
+    private void executeJarFile(String path, String args)
     {
         try
         {
             Process process = Runtime.getRuntime().exec(
-                    "java -jar \"" + path + "\" Hello World Two THree");
+                    "java -jar \"" + path + "\" " + args);
             InputStream is = process.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
