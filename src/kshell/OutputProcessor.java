@@ -12,8 +12,9 @@ package kshell;
 public class OutputProcessor
 {
 
-    OperatingMode opMode = null;
-    UI ui = null;
+    private Output commandToExecute = new Output();
+    private OperatingMode opMode = null;
+    private UI ui = null;
     /**
      * Makes decisions about what to do with the output object given to it.
      * <p>
@@ -36,8 +37,7 @@ public class OutputProcessor
      * @return a modified output object.
      */
     public Output process(Output o)
-    {
-        System.out.println(o);
+    {        
         if(opMode == OperatingMode.COMMAND)
             return processCommand(o);
         else if(opMode == OperatingMode.INPUT)
@@ -52,12 +52,15 @@ public class OutputProcessor
      */
     private Output processCommand(Output o)
     {   
+        System.out.print("Command: ");
+        System.out.println(o);
         if(o.isEnterHit())
         {
-            System.out.println("enter hit");
-            this.ui.appendText("\n");
-            this.ui.appendText("This area is for the start of the command.\n");
+            System.out.println("Enter is hit!");
             this.opMode = OperatingMode.INPUT;
+//            this.ui.appendText("\n");
+//            this.ui.appendText("This area is for the start of the command.\n");    
+            executeCommand(o);
             return new Output();
             
         }
@@ -69,25 +72,36 @@ public class OutputProcessor
     }
     
     /**
-     * Parses the Output object for a command.
-     * @param o 
-     */
-    private void parseOutputForCommand(Output o)
-    {
-        
-    }
-    
-    /**
      * Process as if the Output is input for a running command.     
      * @param o
      * @return a modified output object.
      */
     private Output processInput(Output o)
     {
-        this.opMode = OperatingMode.COMMAND;
+        System.out.print("Input: ");
+        System.out.println(o);
+//        this.opMode = OperatingMode.COMMAND;
         this.ui.updateLine(o);
         return new Output();
     }
+    
+    /**
+     * Parses and readies the command for execution.
+     * @param o 
+     */
+    private void executeCommand(Output o)
+    {
+        commandToExecute = new Output(o);
+    } 
+    
+    /**
+     * Parses the Output object for a command.
+     * @param o 
+     */
+    private void parseOutputForCommand(Output o)
+    {
+        
+    }        
 
 }
 
