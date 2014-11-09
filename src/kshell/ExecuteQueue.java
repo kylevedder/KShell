@@ -12,7 +12,7 @@ package kshell;
  */
 public class ExecuteQueue
 {
-    private Output output;
+    private UserInput output;
     public Lock chLock = null;
 
     public ExecuteQueue()

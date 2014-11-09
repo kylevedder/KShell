@@ -9,28 +9,28 @@ package kshell;
  *
  * @author Kyle
  */
-public class Output
+public class UserInput
 {
 
     private StringBuilder sb;
     private boolean enterHit = false;
 
-    public Output(String value)
+    public UserInput(String value)
     {
         this.sb = new StringBuilder(value);
     }
 
-    public Output()
+    public UserInput()
     {
         this.sb = new StringBuilder();
     }
 
-    public Output(StringBuilder sb)
+    public UserInput(StringBuilder sb)
     {
         this.sb = sb;
     }
 
-    public Output(Output output)
+    public UserInput(UserInput output)
     {
         this.sb = new StringBuilder(output.getString());
     }

@@ -20,7 +20,7 @@ public class KeyInput
 {
 
 //    private static Input input = new Input();
-    private static Output output = new Output();
+    private static UserInput output = new UserInput();
 
     /**
      * Handles all key input from UI.

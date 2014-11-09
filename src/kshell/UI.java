@@ -33,7 +33,7 @@ import javax.swing.text.BadLocationException;
 public class UI extends JFrame
 {
 
-    public OutputProcessor outputProcessor = null;
+    public UserInputProcessor outputProcessor = null;
     private final String TITLE = "KShell";
     private final String ICON_PATH64 = "/kshell/resources/icon64.png";
     private final String ICON_PATH16 = "/kshell/resources/icon16.png";
@@ -99,7 +99,7 @@ public class UI extends JFrame
         this.setIconImages(icons);
         pack();
         initTextArea();
-        outputProcessor = new OutputProcessor(thisUI);
+        outputProcessor = new UserInputProcessor(thisUI);
     }
     
     private void initTextArea()
@@ -118,7 +118,7 @@ public class UI extends JFrame
     /**
      * Update the UI with the Output obj.
      */
-    public void updateLine(Output commandLine)
+    public void updateLine(UserInput commandLine)
     {
         updateLine(commandLine.getString());
     }

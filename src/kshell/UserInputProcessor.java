@@ -9,10 +9,10 @@ package kshell;
  *
  * @author Kyle
  */
-public class OutputProcessor
+public class UserInputProcessor
 {
 
-    private Output commandToExecute = new Output();
+    private UserInput commandToExecute = new UserInput();
     private OperatingMode opMode = null;
     private UI ui = null;
     /**
@@ -23,11 +23,11 @@ public class OutputProcessor
      *
      *
      */
-    public OutputProcessor(UI ui)
+    public UserInputProcessor(UI ui)
     {
         opMode = OperatingMode.COMMAND;
         this.ui = ui;
-        this.ui.updateLine(new Output().toLine());
+        this.ui.updateLine(new UserInput().toLine());
     }
 
     /**
@@ -36,7 +36,7 @@ public class OutputProcessor
      * @param o
      * @return a modified output object.
      */
-    public Output process(Output o)
+    public UserInput process(UserInput o)
     {        
         if(opMode == OperatingMode.COMMAND)
             return processCommand(o);
@@ -50,7 +50,7 @@ public class OutputProcessor
      * Process as if the Output is a command.
      * @return a modified output object.
      */
-    private Output processCommand(Output o)
+    private UserInput processCommand(UserInput o)
     {   
         System.out.print("Command: ");
         System.out.println(o);
@@ -61,7 +61,7 @@ public class OutputProcessor
 //            this.ui.appendText("\n");
 //            this.ui.appendText("This area is for the start of the command.\n");    
             executeCommand(o);
-            return new Output();
+            return new UserInput();
             
         }
         else//just update the line per ususal
@@ -76,29 +76,29 @@ public class OutputProcessor
      * @param o
      * @return a modified output object.
      */
-    private Output processInput(Output o)
+    private UserInput processInput(UserInput o)
     {
         System.out.print("Input: ");
         System.out.println(o);
 //        this.opMode = OperatingMode.COMMAND;
         this.ui.updateLine(o);
-        return new Output();
+        return new UserInput();
     }
     
     /**
      * Parses and readies the command for execution.
      * @param o 
      */
-    private void executeCommand(Output o)
+    private void executeCommand(UserInput o)
     {
-        commandToExecute = new Output(o);
+        commandToExecute = new UserInput(o);
     } 
     
     /**
      * Parses the Output object for a command.
      * @param o 
      */
-    private void parseOutputForCommand(Output o)
+    private void parseOutputForCommand(UserInput o)
     {
         
     }        
