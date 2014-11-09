@@ -31,7 +31,7 @@ public class KeyInput
     {
         if (isKey(e, KeyEvent.VK_ENTER))
         {
-            enter(ui);
+            enter();
         }
         else if (isKey(e, KeyEvent.VK_UP))
         {
@@ -57,8 +57,7 @@ public class KeyInput
         {
             typeKey(e);
         }
-//        ui.updateUI(input);
-//        System.out.println(commandLine.toString());
+        output = ui.outputProcessor.process(output);
     }
 
     /**
@@ -73,8 +72,6 @@ public class KeyInput
         return (e.getKeyChar() == code || e.getKeyCode() == code);
     }
 
-    
-
     /**
      * Adds the given key to the commandLine.
      *
@@ -82,28 +79,21 @@ public class KeyInput
      */
     private static void typeKey(KeyEvent e)
     {
-        output.appendString(String.valueOf(e.getKeyChar()));
+        output.appendChar(e.getKeyChar());
     }
 
-    private static void enter(UI ui)
+    private static void enter()
     {
-        if (!output.isEmpty())//has a real command
-        {
+        output.enterHit();
 //            CommandMemory.add(input);
 //            Main.ch.addCommand(input);
 //            Main.chLock.unlock();
-        }
-        else//empty command
-        {
-            
-        }
 //        ui.appendText("\n");
-        output = new Output();
     }
 
     private static void backspace()
     {
-//        input.delete(input.getLength() - 1);
+        output.deleteLastChar();
     }
 
     private static void up()

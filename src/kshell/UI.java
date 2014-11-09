@@ -33,6 +33,7 @@ import javax.swing.text.BadLocationException;
 public class UI extends JFrame
 {
 
+    public OutputProcessor outputProcessor = null;
     private final String TITLE = "KShell";
     private final String ICON_PATH64 = "/kshell/resources/icon64.png";
     private final String ICON_PATH16 = "/kshell/resources/icon16.png";
@@ -41,7 +42,7 @@ public class UI extends JFrame
     private static JTextArea mainText = null;
     private static JScrollPane mainTextScroll = null;
     private static JPanel mainPanel = null;
-    private UI ui = this;
+    private UI thisUI = this;
 
     public UI()
     {
@@ -49,8 +50,7 @@ public class UI extends JFrame
     }
 
     private void init()
-    {
-
+    {       
         mainTextScroll = new javax.swing.JScrollPane();
         mainText = new javax.swing.JTextArea();
         mainPanel = new JPanel();
@@ -82,7 +82,7 @@ public class UI extends JFrame
                         //ignored
                     }
                 });
-                KeyInput.handleKeyInput(evt, ui);
+                KeyInput.handleKeyInput(evt, thisUI);
             }
         });
         mainTextScroll.setViewportView(mainText);
@@ -99,24 +99,41 @@ public class UI extends JFrame
         this.setIconImages(icons);
         pack();
         initTextArea();
+        outputProcessor = new OutputProcessor(thisUI);
     }
     
     private void initTextArea()
+    {        
+    }
+        
+    
+    /**
+     * Update the UI with the Input obj.
+     */
+    public void updateLine(Input commandLine)
     {
-        updateUI(new Input());
+        updateLine(commandLine.toString());
     }
     
     /**
-     * Update the UI with the Input obj
+     * Update the UI with the Output obj.
      */
-    public static void updateUI(Input commandLine)
+    public void updateLine(Output commandLine)
+    {
+        updateLine(commandLine.getString());
+    }
+    
+    /**
+     * Update the UI with the given String.
+     */
+    public void updateLine(String s)
     {
         try
         {            
             int numLines = mainText.getLineCount();
             int start = mainText.getLineStartOffset(numLines - 1);
             int end = mainText.getLineEndOffset(numLines - 1);
-            mainText.replaceRange(commandLine.toLine(), start, end);
+            mainText.replaceRange(s, start, end);
         }
         catch (BadLocationException ex)
         {
