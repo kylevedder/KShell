@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kshell;
+package kshell.old;
 
-import kshell.old.Input;
 
 /**
  *
  * @author kyle
  */
-public class Command
+class Command
 {
 
     String command;
@@ -64,13 +63,13 @@ public class Command
         }
     }
     
-    /**
-     * Converts an Input object into a Command object.
-     * @param s String to convert.
-     * @return Command object of the Input object.
-     */
-    public static Command parseIntoCommand(Input i)
-    {
-        return parseIntoCommand(i.toString());
-    }
+//    /**
+//     * Converts an Input object into a Command object.
+//     * @param s String to convert.
+//     * @return Command object of the Input object.
+//     */
+//    public static Command parseIntoCommand(Input i)
+//    {
+//        return parseIntoCommand(i.toString());
+//    }
 }

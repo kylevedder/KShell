@@ -9,7 +9,7 @@ package kshell.old;
  *
  * @author kyle
  */
-public class Response
+class Response
 {
     boolean success;
     String message;

@@ -33,21 +33,21 @@ public class CommandExecuteThread extends Thread
      */
     private void execute()
     {
-        Command c = null;
-        while (isRunning)
-        {
-            Main.chLock.await();//wait for command to be added
-            synchronized (Main.ch)
-            {
-                c = Main.ch.getNextCommand();
-                if (Main.ch.isEmpty())
-                {
-                    Main.chLock.lock();
-                }
-            }
-            System.out.println(c.command);
-            //TODO: Execute command
-        }
+//        Command c = null;
+//        while (isRunning)
+//        {
+//            Main.chLock.await();//wait for command to be added
+//            synchronized (Main.ch)
+//            {
+//                c = Main.ch.getNextCommand();
+//                if (Main.ch.isEmpty())
+//                {
+//                    Main.chLock.lock();
+//                }
+//            }
+//            System.out.println(c.command);
+//            //TODO: Execute command
+//        }
     }
 
     /**

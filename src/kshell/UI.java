@@ -5,7 +5,6 @@
  */
 package kshell;
 
-import kshell.old.Input;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -108,13 +107,7 @@ public class UI extends JFrame
     }
         
     
-    /**
-     * Update the UI with the Input obj.
-     */
-    public void updateLine(Input commandLine)
-    {
-        updateLine(commandLine.toString());
-    }
+
     
     /**
      * Update the UI with the Output obj.

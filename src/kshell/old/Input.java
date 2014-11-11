@@ -11,7 +11,7 @@ import kshell.ShellVars;
  *
  * @author Kyle
  */
-public class Input
+class Input
 {
 
     private StringBuilder commandString;
