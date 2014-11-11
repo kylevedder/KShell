@@ -5,6 +5,7 @@
  */
 package kshell;
 
+import kshell.old.Input;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

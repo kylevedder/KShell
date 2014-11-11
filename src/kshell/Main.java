@@ -23,7 +23,7 @@ public class Main
         UI ui = new UI();
         ch = new CommandHolder();
         chLock = new Lock();
-        CommandProcessorThread cpt = new CommandProcessorThread();
+        CommandExecuteThread cpt = new CommandExecuteThread();
         cpt.start();
     }
 

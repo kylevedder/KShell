@@ -5,6 +5,8 @@
  */
 package kshell;
 
+import kshell.old.Input;
+
 /**
  *
  * @author kyle

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Kyle
  */
-public class CommandProcessorThread extends Thread
+public class CommandExecuteThread extends Thread
 {
 
     private volatile boolean isRunning = true;
@@ -75,7 +75,7 @@ public class CommandProcessorThread extends Thread
         }
         catch (IOException ex)
         {
-            Logger.getLogger(CommandProcessorThread.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CommandExecuteThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
