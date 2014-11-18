@@ -65,7 +65,7 @@ public class CommandExecuteThread extends Thread
                     Process process = Runtime.getRuntime().exec(
                             "java -jar \"" + "D:\\Documents\\NetBeansProjects\\JShellPrograms\\Whoami\\dist\\Whoami.jar" + "\" " + "");
                     
-                    //ins
+                    //ins                    
                     is = process.getInputStream();                    
                     isr = new InputStreamReader(is);                    
                     br = new BufferedReader(isr);
