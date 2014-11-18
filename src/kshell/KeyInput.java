@@ -15,7 +15,7 @@ public class KeyInput
 
 //    private static Input input = new Input();
     private static UserInput output = new UserInput();
-    private static CommandExecuteQueue ceq = CommandExecuteQueue.getInstance();
+    private static CommandExecuteQueueNew ceq = CommandExecuteQueueNew.getInstance();
 
     /**
      * Handles all key input from UI.
@@ -79,12 +79,7 @@ public class KeyInput
 
     private static void enter()
     {
-        output.enterHit();
-        ceq.addFunction(output);        
-//            CommandMemory.add(input);
-//            Main.ch.addCommand(input);
-//            Main.chLock.unlock();
-//        ui.appendText("\n");
+        output.enterHit();        
     }
 
     private static void backspace()

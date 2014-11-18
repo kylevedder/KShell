@@ -56,15 +56,13 @@ public class CommandExecuteQueue
     }
     
     /**
-     * Resets the function and locks the lock.
+     * Clears the function.
      */
     public void clearFunction()
     {
-        userInput = null;
-        functionLock.lock();
+        userInput = null;        
     }
-       
-
+    
     /**
      * Gets the operating mode currently
      * @return Command - waiting for a command mode

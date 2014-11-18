@@ -12,9 +12,10 @@ package kshell;
 public class UserInputProcessor
 {
 
-    private CommandExecuteQueue ceq = null;
+    private CommandExecuteQueueNew ceq = null;
     private OperatingMode opMode = null;
     private UI ui = null;
+
     /**
      * Makes decisions about what to do with the output object given to it.
      * <p>
@@ -26,7 +27,7 @@ public class UserInputProcessor
     public UserInputProcessor(UI ui)
     {
         opMode = OperatingMode.COMMAND;
-        ceq = CommandExecuteQueue.getInstance();
+        ceq = CommandExecuteQueueNew.getInstance();
         this.ui = ui;
         this.ui.updateLine(new UserInput().toLine());
     }
@@ -60,7 +61,7 @@ public class UserInputProcessor
             this.ui.appendText("\n");
             System.out.println("Enter is hit!");
             this.opMode = OperatingMode.INPUT;
-            ceq.addFunction(usrIn);
+            ceq.addFunction(usrIn);            
             return new UserInput();
             
         }
