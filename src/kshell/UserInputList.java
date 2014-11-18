@@ -13,12 +13,12 @@ import java.util.List;
  *
  * @author Kyle
  */
-public class SyncdList
+public class UserInputList
 {
 
     private List<UserInput> list;
 
-    public SyncdList()
+    public UserInputList()
     {
         list = Collections.synchronizedList(new ArrayList<UserInput>());
     }
@@ -36,7 +36,7 @@ public class SyncdList
      * Gets the next command in the list, removing it from the holder.
      * @return UserInput object, or null if no objects are left.
      */
-    public UserInput getNextUserInput()
+    public UserInput getFirstUserInput()
     {
         if (list.size() > 0)
         {
@@ -59,4 +59,12 @@ public class SyncdList
             list.add(cmd);
         }
     }  
+    
+    /**
+     * Empty the list.
+     */
+    public void clear()
+    {
+        list.clear();
+    }
 }

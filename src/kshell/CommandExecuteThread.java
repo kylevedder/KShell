@@ -20,10 +20,12 @@ public class CommandExecuteThread extends Thread
 {
 
     private volatile boolean isRunning = true;
+    private CommandExecuteQueue ceq;
 
     @Override
     public void run()
     {
+        ceq = CommandExecuteQueue.getInstance();
         execute();
     }
 
@@ -31,26 +33,46 @@ public class CommandExecuteThread extends Thread
      * Executes the functionality of the thread.
      */
     private void execute()
+    {        
+        UserInput usrIn = null;        
+        while (isRunning)
+        {
+            System.out.println("Execute Thread Waiting...");
+            //await an added function
+            ceq.awaitFunction();
+            System.out.println("Execute Thread Executing...");
+            if ((usrIn = ceq.getFunction()) != null)//not null input
+            {
+                System.out.println("FN: " + usrIn.getString());
+            }
+            ceq.clearFunction();
+        }
+    }
+
+    /**
+     * Parses the UserInput object into a Command object.
+     *
+     * @param usrIn
+     * @return Command object of the function, returns null if usrIn is null
+     */
+    private Command parseFunction(UserInput usrIn)
     {
-//        Command c = null;
-//        while (isRunning)
-//        {
-//            Main.chLock.await();//wait for command to be added
-//            synchronized (Main.ch)
-//            {
-//                c = Main.ch.getNextCommand();
-//                if (Main.ch.isEmpty())
-//                {
-//                    Main.chLock.lock();
-//                }
-//            }
-//            System.out.println(c.command);
-//            //TODO: Execute command
-//        }
+        if (usrIn != null)
+        {
+            String input = usrIn.toString().trim();
+            
+//            (input.indexOf(" "));
+        }
+        else
+        {
+            return null;
+        }
+        return null;
     }
 
     /**
      * Execute the jar file at the given path.
+     *
      * @param path file system path to each jar.
      * @param args String containing the arguments for the jar to execute.
      */
@@ -64,9 +86,8 @@ public class CommandExecuteThread extends Thread
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String line;
-            
+
 //        System.out.printf("Output of running %s is:", Arrays.toString(args));
-            
             while ((line = br.readLine()) != null)
             {
                 System.out.println(line);

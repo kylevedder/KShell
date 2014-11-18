@@ -10,9 +10,7 @@ package kshell;
  * @author kyle
  */
 public class Main
-{
-
-    public static CommandHolder ch = null;
+{    
     public static Lock chLock = null;
 
     /**
@@ -21,10 +19,11 @@ public class Main
     public static void main(String[] args)
     {
         UI ui = new UI();
-        ch = new CommandHolder();
         chLock = new Lock();
         CommandExecuteThread cpt = new CommandExecuteThread();
         cpt.start();
     }
+    
+    
 
 }

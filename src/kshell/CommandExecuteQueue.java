@@ -12,21 +12,58 @@ package kshell;
  */
 public class CommandExecuteQueue
 {
+    private static CommandExecuteQueue cmq = null;
     private UserInput userInput;
-    private SyncdList syncdList;
+    private UserInputList userInputList;
     private OperatingMode opMode = null;
-    public Lock chLock = null;
+    public Lock functionLock = null;
 
+    /**
+     * Returns the singleton instance of the queue.
+     * @return 
+     */
+    public static CommandExecuteQueue getInstance()
+    {
+        if(cmq == null)cmq = new CommandExecuteQueue();
+        return cmq;
+    }        
+    
     /**
      * Holds the current running command and any user input.
      */
-    public CommandExecuteQueue()
+    private CommandExecuteQueue()
+    {
+        init();
+    }
+    
+    /**
+     * Sets/Resets the function
+     */
+    private void init()
     {
         userInput = null;
         opMode = OperatingMode.COMMAND;
-        chLock = new Lock();
-        syncdList = new SyncdList();
+        functionLock = new Lock();
+        userInputList = new UserInputList();
     }
+
+    /**
+     * Blocks until a function is avalible.
+     */
+    public void awaitFunction()
+    {
+        functionLock.await();
+    }
+    
+    /**
+     * Resets the function and locks the lock.
+     */
+    public void clearFunction()
+    {
+        userInput = null;
+        functionLock.lock();
+    }
+       
 
     /**
      * Gets the operating mode currently
@@ -49,18 +86,46 @@ public class CommandExecuteQueue
         if(this.getOpMode() == OperatingMode.COMMAND)
         {
             this.userInput = uin;
+            functionLock.unlock();
             return true;
         }
         //in another mode
         return false;
     }
-    
-    
 
+    /**
+     * Gets the UserInput object of the function.
+     * @return 
+     */
+    public UserInput getFunction()
+    {
+        return userInput;
+    }
     
     
     
+    /**
+     * Adds user input to feed into the execute thread. Will be use IFF the thread wants to keep the info.
+     * @param uin 
+     */
+    public void addInput(UserInput uin)
+    {
+        userInputList.addUserInput(uin);
+    }
     
+    /**
+     * Clears the user input buffer.
+     */
+    public void clearInput()
+    {
+        userInputList.clear();
+    }
     
-    
+    /**
+     * Completely resets the queue.
+     */
+    public void reset()
+    {
+        init();
+    }
 }

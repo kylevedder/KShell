@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kshell.old;
+package kshell;
 
 
 /**
  *
  * @author kyle
  */
-class Command
+public class Command
 {
 
     String command;
