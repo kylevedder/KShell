@@ -48,13 +48,14 @@ public class CommandExecuteThread extends Thread
             System.out.println("Waiting...");
             //await an added function
             ceq.awaitFunction();
-            System.out.println("Executing...");
+            usrIn = ceq.getFunction();
+            System.out.println("Executing: " + usrIn);
 
             //accept function
             //begin execution
             //while executing, check for input for function
             //while executing, check for output from the function
-            if ((usrIn = ceq.getFunction()) != null)//not null input, function needs to be processed
+            if ((usrIn) != null)//not null input, function needs to be processed
             {
                 //parse function
                 Command c = parseFunction(usrIn);
