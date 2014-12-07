@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jarexecutor;
+package kshell.comms;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

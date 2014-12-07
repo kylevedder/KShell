@@ -45,70 +45,14 @@ public class CommandExecuteThread extends Thread
         UserInput usrIn = null;
         while (isRunning)
         {
-            System.out.println("Waiting...");
+            System.out.println("Waiting For New Function...");
             //await an added function
             ceq.awaitFunction();
             usrIn = ceq.getFunction();
             System.out.println("Executing: " + usrIn);
-
-            //accept function
-            //begin execution
-            //while executing, check for input for function
-            //while executing, check for output from the function
-            if ((usrIn) != null)//not null input, function needs to be processed
-            {
-                //parse function
-                Command c = parseFunction(usrIn);
-
-                
-                try
-                {
-                    Process process = Runtime.getRuntime().exec(
-                            "java -jar \"" + "D:\\Documents\\NetBeansProjects\\JShellPrograms\\Whoami\\dist\\Whoami.jar" + "\" " + "");
-                    
-                    //ins                    
-                    is = process.getInputStream();                    
-                    isr = new InputStreamReader(is);                    
-                    br = new BufferedReader(isr);
-                    
-                    //outs
-                    os = process.getOutputStream();
-                    osw = new OutputStreamWriter(os);                       
-                    os.write("hello".getBytes());
-                    //add ins and outs
-                    ceq.addCommandIn(osw);
-                    ceq.addCommandOut(br);
-                    String line;
-                                        
-                    while ((line = br.readLine()) != null)
-                    {
-                        System.out.println(line);
-                    }
-                }
-                catch (IOException ex)
-                {
-                    Logger.getLogger(CommandExecuteThread.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            
             ceq.reset();
-            System.out.println("execution done...");
-            
-            //done executing
-            
-
-//            if ((ceq.getFunction()) != null)//not null input, function needs to be processed
-//            {
-//                //grab the function for processing
-//                usrIn = ceq.getFunction();
-//                //clear queue's function
-//                ceq.clearFunction();
-//                System.out.println("FN: " + usrIn.getString());
-//            }
-//            else//process input
-//            {
-//                
-//            }
-//            System.out.println("Loop Done...");
+            System.out.println("execution done...");           
         }
     }
 

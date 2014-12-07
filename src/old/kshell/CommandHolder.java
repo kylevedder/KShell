@@ -1,4 +1,4 @@
-package kshell.old;
+package old.kshell;
 
 ///*
 // * To change this license header, choose License Headers in Project Properties.
