@@ -12,6 +12,8 @@ package kshell;
 public class Main
 {    
     public static Lock chLock = null;
+    
+    public static String commandLookupFileLocation = "./functions.txt";
 
     /**
      * @param args the command line arguments

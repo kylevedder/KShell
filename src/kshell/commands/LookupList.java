@@ -6,14 +6,16 @@
 package kshell.commands;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import kshell.JSON.JSONObjectWrapper;
 import kshell.file.FileUtils;
+import kshell.file.FileWrapper;
 
 /**
  *
@@ -24,16 +26,16 @@ public class LookupList
 
     File lookupFile;
     boolean fileParsed = false;
-    public static String COMMAND_KEY = "command";
-    public static String PATH_KEY = "path";
-    private HashMap<String, File> commandMap = null;
+    public static String FUNCTION_KEY = "command_name";
+    public static String PATH_KEY = "jar_path";
+    private HashMap<String, FileWrapper> commandMap = null;
 
     /**
      * Accepts a File as a file to parse for commands.
      *
      * @param lookupFile File to parse
      */
-    public LookupList(File lookupFile)
+    public LookupList(FileWrapper lookupFile)
     {
         this.lookupFile = lookupFile;
         if (this.lookupFile != null)
@@ -46,93 +48,93 @@ public class LookupList
             //file does not exist
             else
             {
-                commandMap = new HashMap<String, File>();
+                commandMap = new HashMap<String, FileWrapper>();
                 //make a new lookup file
                 generateLookupFile(lookupFile);
             }
         }
         else
-        {
+        {            
             fileParsed = false;
         }
     }
 
-    
+    /**
+     * Gets the File from the function name.
+     *
+     * @return
+     */
+    public FileWrapper getJarFromFunctionName(String name)
+    {
+        return commandMap.get(name);
+    }
+
+    /**
+     * Gets the String of the path to the file from the function name.
+     *
+     * @return
+     */
+    public String getJarStringFromFunctionName(String name)
+    {
+        return getJarFromFunctionName(name).getCanonicalPath();
+    }
+
     /**
      * Parse the file and generate a random name.
      *
      * @param f
      * @return
      */
-    private HashMap<String, File> parseFile(File f)
+    private HashMap<String, FileWrapper> parseFile(FileWrapper f)
     {
-        HashMap<String, File> commandMap = null;
+        HashMap<String, FileWrapper> commandMap = null;
         JSONObjectWrapper json = null;
         if (f.exists())
         {
             BufferedReader br = null;
-            commandMap = new HashMap<String, File>();
-            try
-            {
-                String sCurrentLine;
-                br = new BufferedReader(new FileReader(f.getCanonicalPath()));
-
-                //read each line
-                while ((sCurrentLine = br.readLine()) != null)
+            commandMap = new HashMap<String, FileWrapper>();
+            ArrayList<String> lines = FileUtils.readCommandFile(f.getCanonicalPath());
+            for (String line : lines)
+            {                
+                try
                 {
-                    //trim the line
-                    sCurrentLine = sCurrentLine.trim();
-                    //parse JSON
-                    json = new JSONObjectWrapper(sCurrentLine);
+                    json = new JSONObjectWrapper(line);
                     //get the command name
-                    String commandName = json.getString(COMMAND_KEY);
+                    String commandName = json.getString(FUNCTION_KEY);
                     //get the path file
-                    File pathFile = new File(json.getString(PATH_KEY));
+                    FileWrapper pathFile = new FileWrapper(json.getString(PATH_KEY));                    
 
                     //if the path and command are not null
                     if (commandName != null && pathFile != null)
                     {
                         commandMap.put(commandName, pathFile);
+                        System.out.println("Adding: " + commandName + " " + pathFile.getCanonicalPath());
                     }
+                }
+                catch (org.json.JSONException ex)
+                {
+                    json = null;
+                    System.err.println("Line \"" + line + "\" from the lookup list is improperly formatted.");
                 }
 
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            finally
-            {
-                try
-                {
-                    if (br != null)
-                    {
-                        br.close();
-                    }
-                }
-                catch (IOException ex)
-                {
-                    ex.printStackTrace();
-                }
             }
         }
         return commandMap;
     }
-    
+
     /**
      * Creates a new file with a header and general information.
-     * @param f 
+     *
+     * @param f
      */
-    private void generateLookupFile(File f)
+    private void generateLookupFile(FileWrapper f)
     {
-        
-        String contents = 
-               FileUtils.FILE_COMMENT_STARTER + "This is a command lookup file. All commands must be entered below in JSON\n\r"
+
+        String contents
+                = FileUtils.FILE_COMMENT_STARTER + "This is a command lookup file. All commands must be entered below in JSON\n\r"
                 + FileUtils.FILE_COMMENT_STARTER + "Example:\n\r"
-                + FileUtils.FILE_COMMENT_STARTER + new JSONObjectWrapper("").put(COMMAND_KEY, "COMMAND_NAME").put(PATH_KEY, "PATH_KEY").toString();
+                + FileUtils.FILE_COMMENT_STARTER + new JSONObjectWrapper().put(FUNCTION_KEY, "COMMAND_NAME").put(PATH_KEY, "PATH_KEY").toString();
         FileUtils.createFile(f, contents);
     }
-    
-       
 
 }

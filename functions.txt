@@ -1,0 +1,4 @@
+//This is a command lookup file. All commands must be entered below in JSON
+//Example:
+//{"command_name":"COMMAND_NAME","jar_path":"PATH_KEY"}
+{"command_name":"asdf","jar_path":"D:\\Documents\\NetBeansProjects\\JarExecutorTestJar\\dist\\JarExecutorTestJar.jar"}

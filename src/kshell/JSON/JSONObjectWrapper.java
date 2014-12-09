@@ -5,6 +5,7 @@
  */
 package kshell.JSON;
 
+import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,31 +15,35 @@ import org.json.JSONObject;
  */
 public class JSONObjectWrapper extends JSONObject
 {
-    
+
     /**
      * Construct a JSONObject from a source JSON text string. This is the most
      * commonly used JSONObject constructor.
      *
-     * @param source
-     *            A string beginning with <code>{</code>&nbsp;<small>(left
-     *            brace)</small> and ending with <code>}</code>
-     *            &nbsp;<small>(right brace)</small>.
-     * @exception JSONException
-     *                If there is a syntax error in the source string or a
-     *                duplicated key.
+     * @param source A string beginning with <code>{</code>&nbsp;<small>(left
+     * brace)</small> and ending with <code>}</code> &nbsp;<small>(right
+     * brace)</small>.
+     * @exception JSONException If there is a syntax error in the source string
+     * or a duplicated key.
      */
     public JSONObjectWrapper(String source) throws JSONException
     {
         super(source);
     }
 
-    
-    
+    /**
+     * Construct an empty JSONObject.
+     */
+    public JSONObjectWrapper()
+    {
+        super();
+    }
+
     /**
      * Get the string associated with a key.
      *
      * @param key A key string.
-     * @return A string which is the value, or null if no value is found.     
+     * @return A string which is the value, or null if no value is found.
      */
     public String getString(String key)
     {

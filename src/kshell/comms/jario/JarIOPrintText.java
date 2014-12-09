@@ -44,9 +44,9 @@ public class JarIOPrintText implements JarIOInterface
     }
     
     @Override
-    public JarIOEnum getType()
+    public JarIOTypesEnum getType()
     {
-        return JarIOEnum.PRINT_TEXT;
+        return JarIOTypesEnum.PRINT_TEXT;
     }
     
     
@@ -56,7 +56,7 @@ public class JarIOPrintText implements JarIOInterface
      */
     public String getMessage()
     {
-        return this.jsonObj.getString(JarIOEnum.PRINT_TEXT.toString());
+        return this.jsonObj.getString(JarIOTypesEnum.PRINT_TEXT.toString());
     }
 
     

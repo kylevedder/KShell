@@ -6,23 +6,20 @@
 package kshell.comms.jario;
 
 import kshell.comms.JSONObjectWrapper;
-import java.io.File;
 
 /**
  *
  * @author Kyle
  */
-public class JarIOGetDir implements JarIOInterface
-{
-
+public class JarIOSetInfo implements JarIOInterface
+{    
+    
     private JSONObjectWrapper jsonObj = null;
-
     /**
-     * Sets up the JarIO class with a jsonObject
-     *
-     * @param jsonString
+     * Sets up the JarIOPrintText class with a jsonObject
+     * @param jsonString 
      */
-    public JarIOGetDir(String jsonString)
+    public JarIOSetInfo(String jsonString)
     {
         setJSON(jsonString);
     }
@@ -45,20 +42,28 @@ public class JarIOGetDir implements JarIOInterface
             return null;
         }
     }
-
+    
     @Override
-    public JarIOEnum getType()
+    public JarIOTypesEnum getType()
     {
-        return JarIOEnum.SET_DIR;
+        return JarIOTypesEnum.PRINT_TEXT;
+    }
+    
+    
+    /**
+     * Gets the specific subtype of the request.
+     * @return 
+     */
+    public JarIOGetInfoEnum getSubType()
+    {
+        return JarIOGetInfoEnum.valueOf(
+                this.jsonObj.getString(
+                        JarIOTypesEnum.SET_INFO.toString()
+                ));        
     }
 
-    /**
-     * Gets the new directory to change to. May be a relative directory change.
-     *
-     * @return
-     */
-    public String getNewDir()
-    {
-        return jsonObj.getString(JarIOEnum.SET_DIR.toString());
-    }
+    
 }
+
+  
+

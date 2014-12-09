@@ -21,7 +21,7 @@ public interface JarIOInterface
      * Gets the type of JarIO object
      * @return 
      */
-    public JarIOEnum getType();
+    public JarIOTypesEnum getType();
     
     /**
      * Gets the raw JSON passed into setJSON() function. Simply a convenience function.

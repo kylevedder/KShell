@@ -15,7 +15,7 @@ public class JarIOInterpreter
 {
 
     private JSONObjectWrapper jsonObj = null;
-    private JarIOEnum type = null;
+    private JarIOTypesEnum type = null;
     private String jsonString = null;
 
     /**
@@ -29,11 +29,12 @@ public class JarIOInterpreter
         if (jsonString != null)
         {
             this.jsonObj = new JSONObjectWrapper(jsonString);
-            for(JarIOEnum jarIO : JarIOEnum.values())
+            System.out.println(jsonString);
+            for(JarIOTypesEnum jarIOTypes : JarIOTypesEnum.values())
             {
-                if(this.jsonObj.has(jarIO.toString()))
+                if(this.jsonObj.has(jarIOTypes.toString()))
                 {
-                    this.type = jarIO;
+                    this.type = jarIOTypes;
                 }
             }
         }
@@ -43,7 +44,7 @@ public class JarIOInterpreter
      * Gets the type of command.
      * @return 
      */
-    public JarIOEnum getType()
+    public JarIOTypesEnum getType()
     {
         return type;
     }
@@ -54,17 +55,17 @@ public class JarIOInterpreter
      */
     public JarIOInterface getObject()
     {
-        if(getType() == JarIOEnum.PRINT_TEXT)
+        if(getType() == JarIOTypesEnum.PRINT_TEXT)
         {
             return new JarIOPrintText(jsonString);
         }
-        else if(getType() == JarIOEnum.SEND_TEXT)
+        else if(getType() == JarIOTypesEnum.GET_INFO)
         {
-            return new JarIOSendText(jsonString);
+            return new JarIOGetInfo(jsonString);
         }
-        else if(getType() == JarIOEnum.SET_DIR)
+        else if(getType() == JarIOTypesEnum.SET_INFO)
         {
-            return new JarIOSetDir(jsonString);
+            return new JarIOSetInfo(jsonString);
         }
         else
         {

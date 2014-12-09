@@ -6,23 +6,20 @@
 package kshell.comms.jario;
 
 import kshell.comms.JSONObjectWrapper;
-import org.json.JSONObject;
 
 /**
  *
  * @author Kyle
  */
-public class JarIOSendText implements JarIOInterface
-{
-
+public class JarIOGetInfo implements JarIOInterface
+{    
+    
     private JSONObjectWrapper jsonObj = null;
-
     /**
-     * Sets up the JarIO class with a jsonObject
-     *
-     * @param jsonString
+     * Sets up the JarIOPrintText class with a jsonObject
+     * @param jsonString 
      */
-    public JarIOSendText(String jsonString)
+    public JarIOGetInfo(String jsonString)
     {
         setJSON(jsonString);
     }
@@ -45,22 +42,25 @@ public class JarIOSendText implements JarIOInterface
             return null;
         }
     }
-
+    
     @Override
-    public JarIOEnum getType()
+    public JarIOTypesEnum getType()
     {
-        return JarIOEnum.SEND_TEXT;
+        return JarIOTypesEnum.GET_INFO;
     }
-
+    
     /**
-     * Gets the JSON message to write out to the jar based upon the JSON message
-     * given.
-     *
-     * @param message Message to add to JSON
-     * @return
+     * Gets the specific subtype of the request.
+     * @return 
      */
-    public String getJSONOutMessage(String message)
+    public JarIOGetInfoEnum getSubType()
     {
-        return new JSONObject().put(JarIOEnum.SEND_TEXT.toString(), message).toString();
-    }
+        return JarIOGetInfoEnum.valueOf(
+                this.jsonObj.getString(
+                        JarIOTypesEnum.GET_INFO.toString()
+                ));        
+    }    
 }
+
+  
+

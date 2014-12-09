@@ -5,7 +5,7 @@
  */
 package kshell.comms;
 
-import kshell.comms.jario.JarIOEnum;
+import kshell.comms.jario.JarIOTypesEnum;
 import kshell.comms.jario.JarIOInterpreter;
 import kshell.comms.jario.JarIOPrintText;
 import java.io.File;
@@ -40,12 +40,12 @@ public class Main
             jarIOInterpreter = new JarIOInterpreter(read);            
             
             
-            if(jarIOInterpreter.getType() == JarIOEnum.PRINT_TEXT)
+            if(jarIOInterpreter.getType() == JarIOTypesEnum.PRINT_TEXT)
             {                
                 JarIOPrintText pt = (JarIOPrintText)jarIOInterpreter.getObject();
                 System.out.println(pt.getMessage());                
             }
-            else if(jarIOInterpreter.getType() == JarIOEnum.SEND_TEXT)
+            else if(jarIOInterpreter.getType() == JarIOTypesEnum.GET_INFO)
             {                         
                 io.write("Hello");
             }            

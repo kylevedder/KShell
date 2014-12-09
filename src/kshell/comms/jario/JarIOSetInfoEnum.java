@@ -9,7 +9,7 @@ package kshell.comms.jario;
  *
  * @author Kyle
  */
-public enum JarIOEnum
+public enum JarIOSetInfoEnum
 {
-    PRINT_TEXT,SEND_TEXT,SET_DIR,GET_DIR 
+    PRINT_TEXT, SET_CURRENT_DIR
 }

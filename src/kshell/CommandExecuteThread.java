@@ -5,15 +5,18 @@
  */
 package kshell;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import kshell.commands.LookupList;
+import kshell.comms.StreamsHandler;
+import kshell.comms.jario.JarIOTypesEnum;
+import kshell.comms.jario.JarIOInterpreter;
+import kshell.comms.jario.JarIOPrintText;
+import kshell.file.FileWrapper;
 
 /**
  *
@@ -28,12 +31,15 @@ public class CommandExecuteThread extends Thread
     private volatile BufferedReader br = null;
     private volatile OutputStream os = null;
     private volatile OutputStreamWriter osw = null;
+
     private CommandExecuteQueueNew ceq;
+    private LookupList ll;
 
     @Override
     public void run()
     {
         ceq = CommandExecuteQueueNew.getInstance();
+        ll = new LookupList(new FileWrapper(Main.commandLookupFileLocation));
         execute();
     }
 
@@ -42,67 +48,63 @@ public class CommandExecuteThread extends Thread
      */
     private void execute()
     {
-        UserInput usrIn = null;
+        UserInput functionName = null;
         while (isRunning)
         {
-            System.out.println("Waiting For New Function...");
-            //await an added function
-            ceq.awaitFunction();
-            usrIn = ceq.getFunction();
-            System.out.println("Executing: " + usrIn);
-            
-            ceq.reset();
-            System.out.println("execution done...");           
-        }
-    }
-
-    /**
-     * Parses the UserInput object into a Command object.
-     *
-     * @param usrIn
-     * @return Command object of the function, returns null if usrIn is null
-     */
-    private Command parseFunction(UserInput usrIn)
-    {
-        if (usrIn != null)
-        {
-            String input = usrIn.toString().trim();
-
-//            (input.indexOf(" "));
-        }
-        else
-        {
-            return null;
-        }
-        return null;
-    }
-
-    /**
-     * Execute the jar file at the given path.
-     *
-     * @param path file system path to each jar.
-     * @param args String containing the arguments for the jar to execute.
-     */
-    private void executeJarFile(String path, String args)
-    {
-        try
-        {
-            Process process = Runtime.getRuntime().exec(
-                    "java -jar \"" + path + "\" " + args);
-            InputStream is = process.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-            String line;
-
-//        System.out.printf("Output of running %s is:", Arrays.toString(args));
-            while ((line = br.readLine()) != null)
+            try
             {
-                System.out.println(line);
+                System.out.println("Waiting For New Function...");
+                //await an added function
+                ceq.awaitFunction();
+                //get the function name
+                functionName = ceq.getFunction();
+                System.out.println("Executing: " + functionName);
+
+                //look up function name
+                FileWrapper jarLocation = ll.getJarFromFunctionName(functionName.toString());
+
+                //if lookedup name not null
+                if (jarLocation != null)
+                {
+                    ProcessBuilder builder = new ProcessBuilder("java", "-jar", jarLocation.getCanonicalPath());
+                    Process process = builder.start();
+
+                    OutputStream stdin = process.getOutputStream();
+                    InputStream stdout = process.getInputStream();
+
+                    StreamsHandler io = new StreamsHandler(stdin, stdout);
+                    JarIOInterpreter jarIOInterpreter = null;
+                    
+                    //while has an open stream
+                    while (io.hasNext())
+                    {
+                        String read = io.read();
+                        jarIOInterpreter = new JarIOInterpreter(read);
+
+                        System.out.println(jarIOInterpreter.getType());
+                        if (jarIOInterpreter.getType() == JarIOTypesEnum.PRINT_TEXT)
+                        {
+                            JarIOPrintText pt = (JarIOPrintText) jarIOInterpreter.getObject();
+                            System.out.println(">>>>>> " + pt.getMessage());
+                        }
+                        else if (jarIOInterpreter.getType() == JarIOTypesEnum.GET_INFO)
+                        {
+                            JarIOPrintText pt = (JarIOPrintText) jarIOInterpreter.getObject();
+                            io.write("Hello");
+                        }
+                    }                    
+                }
+                else
+                {
+                    System.out.println(functionName + " - Command Not Found!");
+                }
+                ceq.reset();
+                System.out.println("execution done...");
             }
-        }
-        catch (IOException ex)
-        {
-            Logger.getLogger(CommandExecuteThread.class.getName()).log(Level.SEVERE, null, ex);
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
         }
     }
 
